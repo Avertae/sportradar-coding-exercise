@@ -8,6 +8,7 @@ import avertae.sportradar.football.scoreboard.exception.TeamAlreadyPlayingExcept
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -156,6 +157,33 @@ public class WorldCupScoreBoardTest
         assertEquals(HOME_TEAM_3, summary.get().matches().get(0).homeTeam());
         assertEquals(HOME_TEAM, summary.get().matches().get(1).homeTeam());
         assertEquals(HOME_TEAM_2, summary.get().matches().get(2).homeTeam());
+    }
+
+    /*
+     * Example test from requirements
+     */
+    @Test
+    public void getSummary_whenCalledOnScoreBoardFromExample_shouldMatchToExampleResult()
+    {
+        assertDoesNotThrow(() -> scoreBoard.createMatch("Mexico", "Canada"));
+        assertDoesNotThrow(() -> scoreBoard.createMatch("Spain", "Brasil"));
+        assertDoesNotThrow(() -> scoreBoard.createMatch("Germany", "France"));
+        assertDoesNotThrow(() -> scoreBoard.createMatch("Uruguay", "Italy"));
+        assertDoesNotThrow(() -> scoreBoard.createMatch("Argentina", "Australia"));
+        assertDoesNotThrow(() -> scoreBoard.updateMatch("Mexico", "Canada", 0, 5));
+        assertDoesNotThrow(() -> scoreBoard.updateMatch("Spain", "Brasil", 10, 2));
+        assertDoesNotThrow(() -> scoreBoard.updateMatch("Germany", "France", 2, 2));
+        assertDoesNotThrow(() -> scoreBoard.updateMatch("Uruguay", "Italy", 6, 6));
+        assertDoesNotThrow(() -> scoreBoard.updateMatch("Argentina", "Australia", 3 ,1));
+        Optional<Summary> summary = scoreBoard.getSummary();
+        assertTrue(summary.isPresent());
+        List<Match> matches = summary.get().matches();
+        assertEquals(5, matches.size());
+        assertEquals("Uruguay", matches.get(0).homeTeam());
+        assertEquals("Spain", matches.get(1).homeTeam());
+        assertEquals("Mexico", matches.get(2).homeTeam());
+        assertEquals("Argentina", matches.get(3).homeTeam());
+        assertEquals("Germany", matches.get(4).homeTeam());
     }
 
 }
