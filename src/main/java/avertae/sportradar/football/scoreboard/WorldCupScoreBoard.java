@@ -34,13 +34,13 @@ public class WorldCupScoreBoard
         return Optional.of(matchMapper.forward(newMatch));
     }
 
-    public void updateMatch(String homeTeam, String awayTeam, int homeTeamScope, int awayTeamScore)
+    public void updateMatch(String homeTeam, String awayTeam, int homeTeamScore, int awayTeamScore)
             throws MatchDoesNotExistException, InvalidTeamException {
         validateTeams(homeTeam, awayTeam);
         var matchKey = new MatchKey(homeTeam, awayTeam);
         checkMatchExists(matchKey);
         var match = matches.get(new MatchKey(homeTeam, awayTeam));
-        match.setHomeTeamScore(homeTeamScope);
+        match.setHomeTeamScore(homeTeamScore);
         match.setAwayTeamScore(awayTeamScore);
     }
 
