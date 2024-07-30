@@ -1,10 +1,10 @@
 package avertae.sportradar.football.scoreboard;
 
+import avertae.sportradar.football.scoreboard.dto.Match;
+import avertae.sportradar.football.scoreboard.dto.Summary;
 import avertae.sportradar.football.scoreboard.exception.InvalidTeamException;
 import avertae.sportradar.football.scoreboard.exception.MatchDoesNotExistException;
 import avertae.sportradar.football.scoreboard.exception.TeamAlreadyPlayingException;
-import avertae.sportradar.football.scoreboard.model.Match;
-import avertae.sportradar.football.scoreboard.model.Summary;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -40,10 +40,10 @@ public class WorldCupScoreBoardTest
     {
         Optional<Match> match = assertDoesNotThrow(() -> scoreBoard.createMatch(HOME_TEAM, AWAY_TEAM));
         assertTrue(match.isPresent());
-        assertEquals(HOME_TEAM, match.get().getHomeTeam());
-        assertEquals(AWAY_TEAM, match.get().getAwayTeam());
-        assertEquals(INITIAL_SCORE, match.get().getHomeTeamScore());
-        assertEquals(INITIAL_SCORE, match.get().getAwayTeamScore());
+        assertEquals(HOME_TEAM, match.get().homeTeam());
+        assertEquals(AWAY_TEAM, match.get().awayTeam());
+        assertEquals(INITIAL_SCORE, match.get().homeScore());
+        assertEquals(INITIAL_SCORE, match.get().awayScore());
     }
 
     @Test
@@ -51,6 +51,7 @@ public class WorldCupScoreBoardTest
     {
         assertThrows(InvalidTeamException.class, () -> scoreBoard.createMatch(null, AWAY_TEAM));
         assertThrows(InvalidTeamException.class, () -> scoreBoard.createMatch(HOME_TEAM, ""));
+        assertThrows(InvalidTeamException.class, () -> scoreBoard.createMatch(HOME_TEAM, HOME_TEAM));
     }
 
     @Test
@@ -73,8 +74,8 @@ public class WorldCupScoreBoardTest
         assertDoesNotThrow(() -> scoreBoard.createMatch(HOME_TEAM, AWAY_TEAM));
         Optional<Match> match = scoreBoard.findMatch(HOME_TEAM, AWAY_TEAM);
         assertTrue(match.isPresent());
-        assertEquals(HOME_TEAM, match.get().getHomeTeam());
-        assertEquals(AWAY_TEAM, match.get().getAwayTeam());
+        assertEquals(HOME_TEAM, match.get().homeTeam());
+        assertEquals(AWAY_TEAM, match.get().awayTeam());
     }
 
     @Test
@@ -99,8 +100,8 @@ public class WorldCupScoreBoardTest
         assertDoesNotThrow(() -> scoreBoard.updateMatch(HOME_TEAM, AWAY_TEAM, UPDATED_SCORE_1, UPDATED_SCORE_2));
         Optional<Match> match = assertDoesNotThrow(() -> scoreBoard.findMatch(HOME_TEAM, AWAY_TEAM));
         assertTrue(match.isPresent());
-        assertEquals(UPDATED_SCORE_1, match.get().getHomeTeamScore());
-        assertEquals(UPDATED_SCORE_2, match.get().getAwayTeamScore());
+        assertEquals(UPDATED_SCORE_1, match.get().homeScore());
+        assertEquals(UPDATED_SCORE_2, match.get().awayScore());
     }
 
     @Test
@@ -123,8 +124,8 @@ public class WorldCupScoreBoardTest
     {
         Optional<Summary> summary = scoreBoard.getSummary();
         assertTrue(summary.isPresent());
-        assertNotNull(summary.get().getMatches());
-        assertEquals(0, summary.get().getMatches().size());
+        assertNotNull(summary.get().matches());
+        assertEquals(0, summary.get().matches().size());
     }
 
     @Test
@@ -135,8 +136,8 @@ public class WorldCupScoreBoardTest
         assertDoesNotThrow(() -> scoreBoard.createMatch(HOME_TEAM_3, AWAY_TEAM_3));
         Optional<Summary> summary = scoreBoard.getSummary();
         assertTrue(summary.isPresent());
-        assertNotNull(summary.get().getMatches());
-        assertEquals(3, summary.get().getMatches().size());
+        assertNotNull(summary.get().matches());
+        assertEquals(3, summary.get().matches().size());
     }
 
     @Test
@@ -150,11 +151,11 @@ public class WorldCupScoreBoardTest
         assertDoesNotThrow(() -> scoreBoard.updateMatch(HOME_TEAM_3, AWAY_TEAM_3, 10, 0));
         Optional<Summary> summary = scoreBoard.getSummary();
         assertTrue(summary.isPresent());
-        assertNotNull(summary.get().getMatches());
-        assertEquals(3, summary.get().getMatches().size());
-        assertEquals(HOME_TEAM_3, summary.get().getMatches().get(0).getHomeTeam());
-        assertEquals(HOME_TEAM, summary.get().getMatches().get(1).getHomeTeam());
-        assertEquals(HOME_TEAM_2, summary.get().getMatches().get(2).getHomeTeam());
+        assertNotNull(summary.get().matches());
+        assertEquals(3, summary.get().matches().size());
+        assertEquals(HOME_TEAM_3, summary.get().matches().get(0).homeTeam());
+        assertEquals(HOME_TEAM, summary.get().matches().get(1).homeTeam());
+        assertEquals(HOME_TEAM_2, summary.get().matches().get(2).homeTeam());
     }
 
 }

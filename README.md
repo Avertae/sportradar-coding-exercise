@@ -30,4 +30,5 @@ Library should be able to keep leaderboard state and to provide means to update 
 
 ## Assumptions and edge cases
 1. Don't allow to start match, if one of teams is already on score board
-2.
+2. All objects returned to user are immutable
+3. Library methods are not thread-safe
