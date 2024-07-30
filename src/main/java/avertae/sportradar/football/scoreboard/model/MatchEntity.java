@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
-public class MatchDO
+public class MatchEntity
 {
 
     private String homeTeam;
@@ -16,7 +16,7 @@ public class MatchDO
     int awayTeamScore;
     LocalDateTime startTimestamp;
 
-    public MatchDO(String homeTeam, String awayTeam)
+    public MatchEntity(String homeTeam, String awayTeam)
     {
         this(homeTeam, awayTeam, 0, 0, LocalDateTime.now());
     }

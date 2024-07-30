@@ -5,7 +5,8 @@ import avertae.sportradar.football.scoreboard.exception.InvalidTeamException;
 import avertae.sportradar.football.scoreboard.exception.MatchDoesNotExistException;
 import avertae.sportradar.football.scoreboard.exception.TeamAlreadyPlayingException;
 import avertae.sportradar.football.scoreboard.dto.Summary;
-import avertae.sportradar.football.scoreboard.model.MatchDO;
+import avertae.sportradar.football.scoreboard.mapper.MatchMapper;
+import avertae.sportradar.football.scoreboard.model.MatchEntity;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.*;
@@ -18,7 +19,8 @@ public class WorldCupScoreBoard
     {
     }
 
-    private final Map<MatchKey, MatchDO> matches = new HashMap<>();
+    private final Map<MatchKey, MatchEntity> matches = new HashMap<>();
+    private final MatchMapper matchMapper = new MatchMapper();
 
     public Optional<Match> createMatch(String homeTeam, String awayTeam)
             throws InvalidTeamException, TeamAlreadyPlayingException
@@ -27,9 +29,9 @@ public class WorldCupScoreBoard
         checkTeamsExists(homeTeam, awayTeam);
 
         var matchKey = new MatchKey(homeTeam, awayTeam);
-        var newMatch = new MatchDO(homeTeam, awayTeam);
+        var newMatch = new MatchEntity(homeTeam, awayTeam);
         matches.put(matchKey, newMatch);
-        return Optional.of(Match.fromMatchDO(newMatch));
+        return Optional.of(matchMapper.forward(newMatch));
     }
 
     public void updateMatch(String homeTeam, String awayTeam, int homeTeamScope, int awayTeamScore)
@@ -57,7 +59,7 @@ public class WorldCupScoreBoard
             validateTeams(homeTeam, awayTeam);
             var matchKey = new MatchKey(homeTeam, awayTeam);
             checkMatchExists(matchKey);
-            return Optional.of(Match.fromMatchDO(matches.get(matchKey)));
+            return Optional.of(matchMapper.forward(matches.get(matchKey)));
         }
         catch (InvalidTeamException | MatchDoesNotExistException _)
         {
@@ -73,7 +75,7 @@ public class WorldCupScoreBoard
                 .sorted((m1, m2) -> Integer.compare(
                         m2.getHomeTeamScore() + m2.getAwayTeamScore(),
                         m1.getHomeTeamScore() + m1.getAwayTeamScore()))             // primary sort by total score
-                .map(Match::fromMatchDO)                                            // return immutable DTO objects
+                .map(matchMapper::forward)                                            // return immutable DTO objects
                 .toList();
         return Optional.of(new Summary(sortedMatches));
     }
