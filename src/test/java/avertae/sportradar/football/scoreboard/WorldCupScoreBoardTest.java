@@ -1,5 +1,6 @@
 package avertae.sportradar.football.scoreboard;
 
+import avertae.sportradar.football.scoreboard.api.WorldCupScoreBoardServiceImpl;
 import avertae.sportradar.football.scoreboard.dto.Match;
 import avertae.sportradar.football.scoreboard.dto.Summary;
 import avertae.sportradar.football.scoreboard.exception.InvalidTeamException;
@@ -17,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class WorldCupScoreBoardTest
 {
 
-    private WorldCupScoreBoard scoreBoard;
+    private WorldCupScoreBoardServiceImpl scoreBoard;
 
     public static final String HOME_TEAM = "home";
     public static final String AWAY_TEAM = "away";
@@ -33,7 +34,7 @@ public class WorldCupScoreBoardTest
     @BeforeEach
     public void init()
     {
-        scoreBoard = new WorldCupScoreBoard();
+        scoreBoard = new WorldCupScoreBoardServiceImpl();
     }
 
     @Test
