@@ -32,6 +32,13 @@ public class InMemoryWorldCupScoreBoardRepository implements WorldCupScoreBoardR
     }
 
     @Override
+    public Optional<MatchEntity> getByTeam(String team) {
+        return matches.values().stream()
+                .filter(m -> m.getKey().homeTeam().equals(team) || m.getKey().awayTeam().equals(team))
+                .findFirst();
+    }
+
+    @Override
     public MatchEntity update(MatchEntity match) throws MatchDoesNotExistException
     {
         if (!matches.containsKey(match.getKey()))

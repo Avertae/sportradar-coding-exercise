@@ -21,6 +21,10 @@ public interface WorldCupScoreBoardService
 
     Optional<Match> findMatch(String homeTeam, String awayTeam);
 
+    Optional<Integer> findTeamScore(String team);
+
     Optional<Summary> getSummary();
+
+
 
 }

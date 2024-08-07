@@ -12,7 +12,9 @@ public interface WorldCupScoreBoardRepository
 {
     MatchEntity create(MatchEntity match) throws TeamAlreadyPlayingException;
     Optional<MatchEntity> getByKey(MatchKey matchKey);
+    Optional<MatchEntity> getByTeam(String team);
     MatchEntity update(MatchEntity match) throws MatchDoesNotExistException;
     void delete(MatchEntity match) throws MatchDoesNotExistException;
     List<MatchEntity> getSummaryMatches();
+
 }

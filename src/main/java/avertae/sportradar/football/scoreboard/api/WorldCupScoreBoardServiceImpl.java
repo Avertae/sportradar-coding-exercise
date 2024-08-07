@@ -63,6 +63,23 @@ public class WorldCupScoreBoardServiceImpl implements WorldCupScoreBoardService
         return result;
     }
 
+    @Override
+    public Optional<Integer> findTeamScore(String team) {
+        Optional<Integer> result = Optional.empty();
+        // TODO: validation of input data
+
+        var match = repo.getByTeam(team);
+        if (match.isEmpty())
+            return result;
+
+        if (match.get().getKey().homeTeam().equals(team))
+            result = Optional.of(match.get().getHomeTeamScore());
+        else
+            result = Optional.of(match.get().getAwayTeamScore());
+
+        return result;
+    }
+
     public Optional<Summary> getSummary()
     {
         var matches = repo.getSummaryMatches()
