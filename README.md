@@ -11,6 +11,7 @@ Library should be able to keep leaderboard state and to provide means to update 
    - returns list of matches ordered by:
      1. total score descending (sum of Home Team Score and Away Team Score)
      2. start timestamp descending
+5. Get team score
 
 ## Constraints
 * simple library implementation
