@@ -10,15 +10,14 @@ import java.time.LocalDateTime;
 public class MatchEntity
 {
 
-    private String homeTeam;
-    private String awayTeam;
-    int homeTeamScore;
-    int awayTeamScore;
-    LocalDateTime startTimestamp;
+    private MatchKey key;
+    private int homeTeamScore;
+    private int awayTeamScore;
+    private LocalDateTime startTimestamp;
 
-    public MatchEntity(String homeTeam, String awayTeam)
+    public MatchEntity(MatchKey key)
     {
-        this(homeTeam, awayTeam, 0, 0, LocalDateTime.now());
+        this(key, 0, 0, LocalDateTime.now());
     }
 
 }

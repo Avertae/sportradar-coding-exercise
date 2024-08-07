@@ -1,9 +1,9 @@
 package avertae.sportradar.football.scoreboard.exception;
 
-public class InvalidTeamException extends BaseScoreBoardException
+public class InvalidTeamException extends RuntimeException
 {
-    public InvalidTeamException(String message)
+    public InvalidTeamException(String homeTeam, String awayTeam)
     {
-        super(message);
+        super("Provided teams are invalid: '%s', '%s".formatted(homeTeam, awayTeam));
     }
 }
